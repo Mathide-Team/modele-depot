@@ -2,9 +2,9 @@
 
 <!-- Remplacer ce README. La partie « Socle qualité » peut rester telle quelle. -->
 
-## Socle qualité Mathide-Team
+## Socle qualité Mathilde-Team
 
-Ce dépôt est créé depuis [`modele-depot`](https://github.com/Mathide-Team/modele-depot). Il suit le [socle qualité de l'équipe](https://github.com/Mathide-Team/.github/blob/main/SOCLE.md) :
+Ce dépôt est créé depuis [`modele-depot`](https://github.com/Mathilde-Team/modele-depot). Il suit le [socle qualité de l'équipe](https://github.com/Mathilde-Team/.github/blob/main/SOCLE.md) :
 
 - **`main`** (livraison) et **`dev`** (intégration) protégées. On n'y pousse jamais directement : PR vers `dev`, puis PR `dev` → `main`.
 - **CI** : job « Qualité (lint, tests) », requis sur les deux branches. À adapter au langage du projet dans `.github/workflows/ci.yml`, en gardant le nom du job.
@@ -17,9 +17,9 @@ Ce dépôt est créé depuis [`modele-depot`](https://github.com/Mathide-Team/mo
 Les protections ne sont pas copiées par GitHub avec le modèle. Un administrateur les applique une fois :
 
 ```bash
-gh repo create Mathide-Team/<nom> --public --template Mathide-Team/modele-depot --clone
+gh repo create Mathilde-Team/<nom> --public --template Mathilde-Team/modele-depot --clone
 cd <nom>
-scripts/appliquer_socle.sh Mathide-Team/<nom>     # crée dev + applique les protections
+scripts/appliquer_socle.sh Mathilde-Team/<nom>     # crée dev + applique les protections
 ```
 
 Puis pour chaque sujet :
