@@ -6,7 +6,10 @@ name = "modele-depot"
 version = "0.0.0"
 description = "Modèle de dépôt Mathilde-Team : socle qualité prêt à l'emploi"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    # Journalisation (SOCLE §8) : loguru pour tout le Python de l'équipe.
+    "loguru>=0.7",
+]
 
 [dependency-groups]
 dev = [

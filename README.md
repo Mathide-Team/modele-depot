@@ -24,6 +24,12 @@ Ce dépôt est créé depuis [`modele-depot`](https://github.com/Mathilde-Team/m
 make test   # même commande que le job Qualité : uv run --locked pytest --cov
 ```
 
+### Journalisation Python (SOCLE §8)
+
+- Tout le Python du dépôt journalise avec **loguru** : `debug()` en entrée et avant chaque sortie de chaque fonction non triviale, chaque `except` journalise (cause exacte, jamais de secret), messages en français.
+- Les règles sont vérifiées par analyse AST dans `tests/test_loguru_regles.py`. Les fonctions sans trace restantes sont comptées par `scripts/audit_debug_sorties.py` et figées dans `scripts/audit_debug_sorties.baseline` — 0 dans le modèle : la référence ne peut qu'être maintenue à 0.
+- Voir les traces de debug : `SOCLE_DEBUG=1` (ex. `SOCLE_DEBUG=1 scripts/check_branch_protection.py --branche dev`).
+
 ### Après « Use this template »
 
 Les protections ne sont pas copiées par GitHub avec le modèle. Un administrateur les applique une fois :
