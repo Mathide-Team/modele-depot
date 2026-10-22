@@ -11,6 +11,24 @@ Ce dépôt est créé depuis [`modele-depot`](https://github.com/Mathilde-Team/m
 - **Garde** : `.github/workflows/guard-main.yml` refuse les PR vers `main` qui ne viennent pas de `dev`.
 - **Protections versionnées** : `.github/branch-protection/{main,dev}.json`, vérifiées chaque jour par le workflow « Protection des branches ».
 - **Licence** : [MIT](LICENSE).
+- **Couverture des tests** : seuil bloquant de **95 %**, branches comprises (décision d'équipe du 21/10/2026, [.github#9](https://github.com/Mathilde-Team/.github/issues/9)). Le seuil est déclaré une seule fois, dans `pyproject.toml` (`[tool.coverage.report] fail_under = 95`, `[tool.coverage.run] branch = true`) ; le job Qualité le lit (`make test`) sans le recopier.
+
+### Couverture des tests
+
+- Remplacer `source = ["scripts"]` de `pyproject.toml` par le paquet du dépôt. Le code d'interface (GTK, Electron) compte : il est mesuré par un job graphique (Xvfb) et combiné, jamais exclu pour atteindre le seuil.
+- Exclusions (`omit`, `# pragma: no cover`) réservées au code réellement inatteignable en test, chacune justifiée par un commentaire.
+- **Dépôt existant sous 95 %** : fixer d'abord `fail_under` à la mesure du jour (aucune régression possible), puis le relever à chaque PR de tests jusqu'à 95. Le palier et la date cible sont écrits dans l'issue de suivi du dépôt.
+- Le modèle s'applique la règle : `scripts/check_branch_protection.py` est couvert à 100 % par `tests/`.
+
+```bash
+make test   # même commande que le job Qualité : uv run --locked pytest --cov
+```
+
+### Journalisation Python (SOCLE §8)
+
+- Tout le Python du dépôt journalise avec **loguru** : `debug()` en entrée et avant chaque sortie de chaque fonction non triviale, chaque `except` journalise (cause exacte, jamais de secret), messages en français.
+- Les règles sont vérifiées par analyse AST dans `tests/test_loguru_regles.py`. Les fonctions sans trace restantes sont comptées par `scripts/audit_debug_sorties.py` et figées dans `scripts/audit_debug_sorties.baseline` — 0 dans le modèle : la référence ne peut qu'être maintenue à 0.
+- Voir les traces de debug : `SOCLE_DEBUG=1` (ex. `SOCLE_DEBUG=1 scripts/check_branch_protection.py --branche dev`).
 
 ### Après « Use this template »
 
