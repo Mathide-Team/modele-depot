@@ -12,7 +12,8 @@ partie publique de la protection est lisible (GET /branches/<branche>) :
 branche protégée, checks requis, application aux administrateurs. Le reste de
 la règle n'est pas vérifiable ici et est signalé en information.
 
-Bibliothèque standard uniquement. Code de sortie 1 en cas d'écart.
+Bibliothèque standard uniquement. Code de sortie 1 en cas d'écart ou d'erreur
+d'API, 2 si le dépôt est inconnu ou la règle absente ou illisible.
 """
 
 from __future__ import annotations
@@ -77,11 +78,22 @@ def main() -> int:
         print("::error::dépôt inconnu (--depot ou GITHUB_REPOSITORY)")
         return 2
 
-    regle = json.loads(Path(args.regles, f"{args.branche}.json").read_text(encoding="utf-8"))
+    chemin = Path(args.regles, f"{args.branche}.json")
+    try:
+        regle = json.loads(chemin.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        print(f"::error::règle absente : {chemin}")
+        return 2
+    except json.JSONDecodeError as erreur:
+        print(f"::error::règle illisible : {chemin} (ligne {erreur.lineno}, {erreur.msg})")
+        return 2
     try:
         branche_api = lire_protection(args.depot, args.branche, os.environ.get("GITHUB_TOKEN"))
     except urllib.error.HTTPError as erreur:
         print(f"::error::lecture de la branche {args.branche} impossible : HTTP {erreur.code}")
+        return 1
+    except urllib.error.URLError as erreur:
+        print(f"::error::API GitHub injoignable : {erreur.reason}")
         return 1
 
     ecarts = comparer(regle, branche_api)
