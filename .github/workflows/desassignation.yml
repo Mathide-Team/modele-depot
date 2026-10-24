@@ -6,7 +6,7 @@ name: Désassignation des issues inactives
 
 "on":
   schedule:
-    - cron: "1 * * * *"
+    - cron: "7 * * * *"
   workflow_dispatch:
     inputs:
       simulation:
