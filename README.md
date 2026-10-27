@@ -11,8 +11,18 @@ Ce dépôt est créé depuis [`modele-depot`](https://github.com/Mathilde-Team/m
 - **Garde** : `.github/workflows/guard-main.yml` refuse les PR vers `main` qui ne viennent pas de `dev`.
 - **Mise à jour des PR** : `.github/workflows/maj-branches.yml` met à jour les PR vers `dev` à chaque avancée de `dev`, et fait résoudre les conflits simples par l'IA locale (SOCLE §11). Label `pas-de-maj-auto` pour exclure une PR ; une PR `resolu-par-ia` repasse en brouillon : la relire avant *Ready for review*.
 - **Protections versionnées** : `.github/branch-protection/{main,dev}.json`, vérifiées chaque jour par le workflow « Protection des branches ».
-- **Licence** : [MIT](LICENSE).
+- **Licence** : [GPL-3.0-or-later](LICENSE) (SOCLE §1) : texte officiel de la GPLv3 dans `LICENSE`, `license = "GPL-3.0-or-later"` dans `pyproject.toml`, en-tête `# SPDX-License-Identifier: GPL-3.0-or-later` en tête de chaque fichier de code, de `scripts/` et de `tests/`.
+- **Version** : déclarée une seule fois, dans `pyproject.toml` (`package.json` ou `manifest.json` alignés s'il y en a), tag `vX.Y.Z` au commit de release. Le modèle reste volontairement en `0.0.0`.
 - **Couverture des tests** : seuil bloquant de **95 %**, branches comprises (décision d'équipe du 21/10/2026, [.github#9](https://github.com/Mathilde-Team/.github/issues/9)). Le seuil est déclaré une seule fois, dans `pyproject.toml` (`[tool.coverage.report] fail_under = 95`, `[tool.coverage.run] branch = true`) ; le job Qualité le lit (`make test`) sans le recopier.
+
+### Dépôt à exception MIT (intégration Home Assistant, IAO)
+
+Les exceptions sont listées dans [SOCLE §1](https://github.com/Mathilde-Team/.github/blob/main/SOCLE.md#1-licence-et-version). Pour un tel dépôt, juste après la création depuis le modèle :
+
+1. remplacer `LICENSE` par le **texte MIT standard non modifié**, « Copyright (c) 2026 Mathilde Deuscher » (toute ligne ajoutée fait afficher NOASSERTION par GitHub) ;
+2. mettre `license = "MIT"` dans `pyproject.toml` (et `package.json`, `manifest.json` s'il y en a) ;
+3. remplacer les en-têtes par `# SPDX-License-Identifier: MIT` ;
+4. ajouter le dépôt à [`audit-exceptions.json`](https://github.com/Mathilde-Team/.github/blob/main/audit-exceptions.json) avec `{"licence": {"spdx": "MIT", "raison": "…"}}`, par une PR vers `dev` du dépôt `.github` : l'audit vérifie alors la MIT au lieu de la GPL-3.0.
 
 ### Couverture des tests
 
