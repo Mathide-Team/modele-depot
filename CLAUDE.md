@@ -1,4 +1,4 @@
-# modele-depot — CLAUDE.md
+# .github — CLAUDE.md
 
 ## Mission
 
