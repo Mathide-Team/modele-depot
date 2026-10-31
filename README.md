@@ -58,3 +58,7 @@ git switch dev && git pull && git switch -c feat/<n°>-description
 # …
 gh pr create --base dev
 ```
+
+Les checks Qualité et Garde utilisent `ubuntu-latest` par défaut, avec priorité
+à `RUNS_ON_LINUX` lorsqu'il est défini. Ce repli, autorisé par la mission, évite
+une attente indéfinie de runner « maison » sans modifier les contrôles (#20).
